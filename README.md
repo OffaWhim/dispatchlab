@@ -185,9 +185,11 @@ Roughly **5,900 automated checks**, and the interesting ones are not the count:
 - **Browser tests over the whole disruption flow** — impact → options →
   compare → why-not → apply → audit — plus a second project that drives a
   **real API process** rather than stubbed responses.
-- **Gates that discover their own subjects.** Six specs walk the navigation
-  rather than naming views, so a tenth screen is held to the landmark,
-  contrast, keyboard and phone-width rules the moment it exists.
+- **Gates that discover their own subjects.** Several browser specs walk the
+  navigation rather than naming views, so a new screen is held to the landmark,
+  contrast, keyboard and phone-width rules the moment it exists — and the set
+  of views that opt out of anything is compared in both directions, so an
+  exemption cannot outlive its reason.
 - **Mutation sweeps.** Two of them, asking not "do the tests pass" but "which
   decisions in this code can I reverse without any test noticing?" The first
   found 93 guards nothing could see.
@@ -201,6 +203,65 @@ Roughly **5,900 automated checks**, and the interesting ones are not the count:
 Documentation claims are themselves gated: a check parses the project's own
 reference document and holds its figures against the tree, because a count
 nobody verifies is a count that goes stale in silence.
+
+---
+
+## Three problems worth talking about
+
+The parts I would most want to be asked about, because each one was wrong in a
+way the tests were green for.
+
+### The undo nobody could use
+
+Undo started as *restore the previous plan document*. It passed. It was also
+dishonest: a life-safety emergency reported **during** the day is not in the
+document you are restoring, so the restored plan scored feasible with the
+emergency simply absent from it — a plan that looked safe because the unsafe
+part had been deleted from the question.
+
+Undo is now a **compensating version**: the day as the change left it, with the
+moved rows put back on the technicians they came from, carrying the duration
+each visit has *now*, and revalidated against current state rather than against
+the state at the time. The emergency stays in the document, so the hard rule can
+still fire — which is the point.
+
+One case stays deliberately unreachable and is marked as a failing test rather
+than quietly allowed: after a callout, the technician a row would go back to is
+the one who went home. Re-homing it on somebody else is not an undo, it is a
+re-plan, so the product offers exactly that instead.
+
+### A change applied late reassigns finished work
+
+Walking the full flagship day end to end for the first time turned up something
+no test could see. A recovery computed at 11:20 and applied at 12:13 froze the
+day as it stood at 11:20 — and nothing re-checked that when the plan was put on
+the day. Ten visits were already under way or done. **Three completed visits
+were handed to a different technician**, and six customers whose work was
+already finished were drafted a notice saying a different technician would be
+coming.
+
+The existing guard could not catch it, because it deliberately skipped any visit
+somebody had reported starting — so the strictly worse case was the one it did
+not name. The apply route now re-reads the event log at the moment of applying,
+refuses with the rows it found, and makes the override explicit and recorded.
+
+Two things it deliberately does *not* do: trim the "customers affected" headline
+to flatter such a plan, which would hide the defect behind the number the
+product puts on every option; and suppress the drafted notice.
+
+### A gate that certified a number that was never true
+
+A check counted the project's own CLI commands and passed. It matched the
+command declarations **and** the package names beside them, so 17 commands plus
+5 package names deduplicated to 22 — and the documentation said 22 too. The
+number and the check agreed with each other and both were wrong.
+
+A gate certifying a wrong number is worse than no gate, because it stops anybody
+recounting. That one lesson shaped a lot of what is above: exemption sets
+compared in **both** directions so they cannot outlive their reason; premise
+assertions so a check that has stopped looking at anything fails loudly instead
+of passing; and a habit of asking, of every new test, *which mutation does this
+redden under* — then running it to find out.
 
 ---
 
