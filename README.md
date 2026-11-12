@@ -79,9 +79,14 @@ so the empty space between two blocks is the answer, and no tooltip has to claim
 
 ![My Day: a technician's route, next stop, and the promises attached to it.](docs/screens/myday-light.png)
 
-**The technician** sees their own route, what is next, and the booked window and
-response-time promise attached to it — stated as facts, never as a verdict. The
-page holds no clock, so it will not tell somebody they are late.
+**The technician** sees their own route and what is next, and is told when a
+decision changed the plan under them. Reporting a stop done stamps it with *the
+day's own clock*, not the device's. Promises are stated as facts, never as a
+verdict — and when there is no promise on record it says that, rather than
+inferring one.
+
+The feed beside it is explicit that **nothing is ever sent**: it shows what a
+customer *would* have heard.
 
 </td>
 <td width="50%">
