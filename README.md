@@ -116,8 +116,17 @@ three weeks ago is still explainable under the policy that allowed it. Pausing
 automation is not a flag: it is a published policy version with its gating
 limits at zero, which keeps the audit trail honest.
 
-Every automatic change writes a receipt showing which limits held and by how
-much, who it affected, and whether it can still be undone.
+Every change writes a receipt showing which limits held and by how much, who it
+affected, and whether it can still be undone.
+
+![A decision receipt: every limit measured against its threshold, and the API's own words on why this one cannot be undone.](docs/screens/receipt-light.png)
+
+Above is a real one. Each limit is printed with the figure it was measured at
+and the threshold it was held to — *overtime added: 13 against a limit of 30 —
+held*. It was a dispatcher's own call, so it carries no undo window, and rather
+than hiding that the page quotes the API's refusal and names what you can do
+instead: **ask for fresh recovery options against the decision**, which changes
+no plan and undoes nothing.
 
 ---
 
