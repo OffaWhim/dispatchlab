@@ -178,7 +178,9 @@ And it fits a phone, which a gate holds every view to at 390px.
 
 ## How it is tested
 
-Roughly **5,900 automated checks**, and the interesting ones are not the count:
+**6,434 automated checks** as of 2026-11-12 — 3,775 Python, 2,405 web unit
+tests, 249 browser tests against committed documents and 5 more against a real
+API process. The count is the least interesting thing about them:
 
 - **Property tests over the scorer and differ**, generated rather than written,
   including that reordering a plan's rows must not change anything the scorer
